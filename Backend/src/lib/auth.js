@@ -10,5 +10,9 @@ export const auth = betterAuth({
     }),
     emailAndPassword: {
         enabled: true
-    }
+    },
+    trustedOrigins:["chatappai://", ...(process.env.NODE_ENV !== "production" ? ["exp://", "exp://**", "exp://192.168.*.*:*/**"] : []),
+],
+debug: process.env.NODE_ENV !== "production",
+allowDangerousConnections: process.env.NODE_ENV !== "production",
 });
