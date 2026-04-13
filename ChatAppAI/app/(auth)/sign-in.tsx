@@ -1,15 +1,16 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, } from "react-native";
 import React, { useState } from "react";
 import { ActivityIndicator, KeyboardAvoidingView, Platform, Pressable, ScrollView, TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "@/constants/colors";
 import { Ionicons } from "@expo/vector-icons";
+import { Link } from "expo-router";
 
 const SignIn = () => {
   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>("Something went wrong");
+  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [secureText, setSecureText] = useState(true);
   
@@ -116,8 +117,57 @@ const SignIn = () => {
                 fontSize:15,
               }}
               />
-              <Pressable></Pressable>
+              <Pressable 
+              onPress={() => setSecureText(!secureText)}
+              style={{
+                position:"absolute",
+                right:12,
+                top:0,
+                bottom:0,
+                justifyContent:"center",
+              }}>
+                <Ionicons
+                name={secureText ? "eye-off-outline" : "eye-outline"}
+                size={20}
+                color={Colors.textMuted}
+                />
+              </Pressable>
             </View>
+
+            <Pressable
+            style={({pressed}) => ({
+              backgroundColor:pressed? Colors.primaryDark : Colors.primary,
+              borderRadius:12,
+              paddingVertical:15,
+              alignItems:"center",
+              opacity: loading ? 0.7 : 1,
+            })}>
+              {loading ? <ActivityIndicator color="#fff" /> : (
+                <Text style={{color:"#fff", fontSize:16, fontWeight:"700"}}>Sign In</Text>
+              )}
+            </Pressable>
+            
+            <View 
+            style={{
+              flexDirection:"row",
+              justifyContent:"center",
+              marginTop:24,
+            }}
+          >
+            <Text style={{color:Colors.textSecondary, fontSize:14}}>Don't have an account?{" "} </Text>
+            <Link href="/(auth)/sign-up" asChild>
+            <Pressable>
+              <Text
+              style={{
+                color:Colors.primaryLight,
+                fontSize:14,
+                fontWeight:"600",
+              }}
+              >
+                Sign Up
+              </Text>
+              </Pressable></Link>
+          </View>
 
           </ScrollView>
          
